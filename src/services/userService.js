@@ -1,9 +1,10 @@
+import bcrypt from 'bcrypt';
 import { StatusCodes } from 'http-status-codes';
+
 import userRepository from '../repository/userRepository.js';
+import { createJWT } from '../utils/common/authUtils.js';
 import ClientError from '../utils/errors/clientError.js';
 import ValidationError from '../utils/errors/validationError.js';
-import bcrypt from 'bcrypt';
-import { createJWT } from '../utils/common/authUtils.js';
 export const signUpService = async (data) => {
   try {
     const newUser = await userRepository.create(data);
@@ -69,7 +70,7 @@ export const signInService = async (data) => {
       username: user.username,
       email: user.email,
       avatar: user.avatar,
-      token: createJWT({id:user._id,email:user.email}),
+      token: createJWT({ id: user._id, email: user.email }),
     };
   } catch (error) {
     console.log('Sign-in service error', error);
